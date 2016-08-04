@@ -11,6 +11,7 @@ import sys
 import click
 from redis import StrictRedis
 from redis.exceptions import ConnectionError
+from rediscluster import StrictRedisCluster
 
 from rq import Connection, get_failed_queue, Queue
 from rq.contrib.legacy import cleanup_ghosts
@@ -38,11 +39,11 @@ config_option = click.option('--config', '-c',
 
 
 def connect(url, config=None):
-    if url:
-        return StrictRedis.from_url(url)
-
-    settings = read_config_file(config) if config else {}
-    return get_redis_from_config(settings)
+    # if url:
+    return StrictRedisCluster(startup_nodes=[{'host': '127.0.0.1', 'port': '7000'}])
+    #
+    # settings = read_config_file(config) if config else {}
+    # return get_redis_from_config(settings)
 
 
 @click.group()

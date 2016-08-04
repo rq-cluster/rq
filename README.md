@@ -48,7 +48,7 @@ And enqueue the function call:
 
 ```python
 from my_module import count_words_at_url
-result = q.enqueue(count_words_at_url, 'http://nvie.com')
+job = q.enqueue(count_words_at_url, 'http://nvie.com')
 ```
 
 For a more complete example, refer to the [docs][d].  But this is the essence.

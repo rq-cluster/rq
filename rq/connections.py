@@ -5,6 +5,7 @@ from __future__ import (absolute_import, division, print_function,
 from contextlib import contextmanager
 
 from redis import StrictRedis
+from rediscluster import StrictRedisCluster
 
 from .compat.connections import patch_connection
 from .local import LocalStack, release_local
@@ -17,7 +18,8 @@ class NoRedisConnectionException(Exception):
 @contextmanager
 def Connection(connection=None):
     if connection is None:
-        connection = StrictRedis()
+        connection = StrictRedisCluster(
+            startup_nodes=[{'host': '127.0.0.1', 'port': '7000'}])
     push_connection(connection)
     try:
         yield
